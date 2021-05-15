@@ -214,7 +214,6 @@ class Simpload(Dataset):
 
             combinedMask += classExtract[idX,:,:]
         
-        # import ipdb;ipdb.set_trace()
         combinedMask = np.clip(combinedMask,0,1)
         combinedRGB = np.dstack([combinedMask,combinedMask,combinedMask])* RGBoGray.astype(np.uint8)
         
@@ -318,7 +317,7 @@ class Simpload(Dataset):
                 'combinedMask': self.preProcess[0]((combinedMask*255).astype(np.uint8)).unsqueeze(0),
                 'combinedRGB': self.preProcess[0](combinedRGB.astype(np.uint8)).unsqueeze(0),
                 'classExtract' : torch.cat([ self.preProcess[2]((i*255).astype(np.uint8)) for i in classExtract], dim=0).unsqueeze(0),
-                'classExtract2d' : torch.cat([ self.preProcess[2]((i*255).astype(np.uint8)).unsqueeze(0) for i in classExtract2d], dim=0).unsqueeze(0)
+                'classExtract2d' : torch.cat([ self.preProcess[2]((i).astype(np.uint8)).unsqueeze(0) for i in classExtract2d], dim=0).unsqueeze(0)
                 # 'classExtract': self.preProcess(torch.from_numpy(classExtract).type(torch.FloatTensor)),
                 # 'classExtract2d': torch.from_numpy(classExtract2d),
             }
@@ -337,22 +336,28 @@ if __name__ == '__main__':
 
     preprocess = transforms.Compose([ transforms.ToPILImage(), transforms.RandomVerticalFlip(0.3),transforms.RandomHorizontalFlip(0.3), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.ToTensor(),])
     preprocessOut = transforms.Compose([ transforms.ToPILImage(), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.ToTensor()])
-    preprocess4D = transforms.Compose([ transforms.ToPILImage(), transforms.Resize((64,64)), transforms.ToTensor()])
+    preprocess256 = transforms.Compose([ transforms.ToPILImage(), transforms.Resize((256,256)), transforms.ToTensor()])
+    preprocess64 = transforms.Compose([ transforms.ToPILImage(), transforms.Resize((64,64)), transforms.ToTensor()])
 
 
-    dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocessOut,preprocessOut,preprocess4D], size=size, selectedCat = selected_Class)
+    dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocess256,preprocess256,preprocess64], size=size, selectedCat = selected_Class)
     val_percent = 0.2
     n_val = int(len(dataset) * val_percent)
     n_train = len(dataset) - n_val
     torch.manual_seed(0);
     train_set, test_set = random_split(dataset, [n_train, n_val])
 
-    # for i in dataset: 
+    for i in dataset: break 
     #     # if len(i['class'])>1:
     #         print(i['class'])
  
     train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1)
     for i in train_loader: break
+    from torchvision.utils import save_image, make_grid
+
+    save_image(i['combinedRGB'][5][0], 'a.jpg')
+    save_image(i['classExtract2d'][5][0][4], 'a1.jpg')
+
     for k in ['combinedMask', 'inputImage', 'combinedRGB', 'classExtract2d', 'classExtract']:
         print(k,i[k].shape)
 
@@ -374,3 +379,6 @@ if __name__ == '__main__':
     # cv2.imwrite('dtest1_bw.jpg', np.array(asd['classExtract'][1])*255)
     # cv2.imwrite('dtest2_bw.jpg', np.array(asd['classExtract'][2])*255)
     # cv2.imwrite('dtest2_rgb.jpg', np.array(asd['classExtract2d'][2])*255)
+
+
+
