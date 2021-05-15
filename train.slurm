@@ -31,8 +31,8 @@ source activate detectron
 
 echo
 echo " Started Training"
-echo "=================================================================================================="
-python trainAllLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/RGBAvgMaskXLossAll --logfile './Log/AllLossBackRGBAvgMaskX.txt' --n_epochs 2000
+echo "==================================================================================================
+python -W ignore trainAllLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/RGBAvgMaskXLossAll --logfile './Log/AllLossBackRGBAvgMaskX.txt' --n_epochs 2000
 echo "=================================================================================================="
 
 echo "Training Complete"
