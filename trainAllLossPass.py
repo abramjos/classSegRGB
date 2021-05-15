@@ -325,7 +325,7 @@ def main(args):
 
   for epoch in trange(starting_epoch, args.n_epochs, ncols=100):
 
-    train_loss, train_classifRes, train_accuracy = train_epochAll(epoch, Dataloader = train_loader, Criteria = trainCriteria, Model = models, Optimizer = models_optim, device=args.device)
+    train_loss, train_classifRes, train_accuracy = train_epoch(epoch, Dataloader = train_loader, Criteria = trainCriteria, Model = models, Optimizer = models_optim, device=args.device)
     
     test_loss, test_classifRes, test_accuracy = test_epoch(epoch, Dataloader = test_loader, Criteria = testCriteria, Model = models, Optimizer = models_optim, device=args.device)
 
