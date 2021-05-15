@@ -29,10 +29,12 @@ module load gcc/gcc-7.1.0
 
 source activate detectron
 
+
 echo
 echo " Started Training"
 echo "=================================================================================================="
-python trainOneLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/RGBAvgMaskXLossOne --logfile './Log/OneLossBackRGBAvgMaskX.txt' --n_epochs 2000
+git checkout sameTrain
+python -W ignore trainOneLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/RGBAvgMaskXLossOne --logfile './Log/OneLossBackRGBAvgMaskX.txt' --n_epochs 2000
 echo "=================================================================================================="
 
 echo "Training Complete"
