@@ -40,10 +40,11 @@ class config():
       size = (self.args.size,self.args.size)
       preprocess = transforms.Compose([ transforms.ToPILImage(), transforms.RandomVerticalFlip(0.3),transforms.RandomHorizontalFlip(0.3), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.ToTensor(),])
       preprocessOut = transforms.Compose([ transforms.ToPILImage(), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.ToTensor()])
+      preprocess4D = transforms.Compose([ transforms.ToPILImage(), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.Resize((64,64)), transforms.ToTensor()])
       # dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocessOut,preprocessOut], size=size)
       
       selected_Class = ['Homer','Marge','Maggie','Lisa','Bart']
-      dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocessOut,preprocessOut], size=size, selectedCat = selected_Class)
+      dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocessOut,preprocessOut,preprocess4D], size=size, selectedCat = selected_Class)
       val_percent = self.args.test_split
       n_val = int(len(dataset) * val_percent)
       n_train = len(dataset) - n_val
@@ -85,3 +86,5 @@ class config():
 
     else:
       return {'Encoder':enc, 'Decoder':dec}
+
+
