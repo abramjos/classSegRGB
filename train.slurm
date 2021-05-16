@@ -33,7 +33,6 @@ source activate detectron
 echo
 echo " Started Training"
 echo "=================================================================================================="
-git checkout sameTrain
 python -W ignore trainOneLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/RGBAvgMaskXLossOne --logfile './Log/OneLossBackRGBAvgMaskX.txt' --n_epochs 2000
 echo "=================================================================================================="
 
