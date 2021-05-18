@@ -33,8 +33,8 @@ class config():
 
     elif self.args.dataset == 'Simp':
       folder = self.args.data_dir
-      imgs_dir = 'groups/amahalanobis/MS-COCO/train2017'
-      coco_instance = COCO(folder+'/instances.json')
+      imgs_dir = '/groups/amahalanobis/MS-COCO/train2017'
+      coco_instance = COCO(folder+'/instanceSelectClassImage.json')
       selected_Class = ['person','truck','car','bus','train','motorcycle']
 
 
