@@ -240,7 +240,8 @@ class Simpload(Dataset):
         img_path = self.imgs_dir + '/' + imgDetail['file_name']
 
 
-        imgPIL = Image.open(img_path.replace('\\','/'))
+        imgCV = cv2.imread(img_path.replace('\\','/'))
+        imgPIL = Image.fromarray(imgCV)
         imgPIL = imgPIL.resize(self.size[::-1])
         img = np.array(imgPIL)
 
