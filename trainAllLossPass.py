@@ -54,6 +54,7 @@ def train_epochAll(epoch, Dataloader, Criteria, Model, Optimizer, device = 'cpu'
       Loss[i] = utils.AverageMeter()
       Model[i].train()
       Model[i].zero_grad()
+      div = 3.0
 
       if i  in 'Encoder':
         Z = Model['Encoder'](inputImage)
@@ -61,6 +62,7 @@ def train_epochAll(epoch, Dataloader, Criteria, Model, Optimizer, device = 'cpu'
         x_hat,x_hatC,x_hatS = Model['Decoder'](Z)
         loss_AE = Criteria['BG'](x_hat, BGSeg)
         Loss['Decoder'].update(loss_AE.item(), classAct.size(0))
+        loss_AE = loss_AE/div
         loss_AE.backward()
 
         # Doing for next classifier and segmentation at once! 
@@ -92,6 +94,7 @@ def train_epochAll(epoch, Dataloader, Criteria, Model, Optimizer, device = 'cpu'
 
           loss_classif = Criteria['Classifier'](Pred['Classifier'], classAct.float())
           Loss['Classifier'].update(loss_classif.item(), classAct.size(0))
+          loss_classif = loss_classif/div
           loss_classif.backward()
 
         # if i == 'Segmentation':
@@ -104,6 +107,7 @@ def train_epochAll(epoch, Dataloader, Criteria, Model, Optimizer, device = 'cpu'
           loss_segment/=float(classAct.size(0))
 
           Loss['Segmentation'].update(loss_segment.item(), classAct.size(0))
+          loss_segment = loss_segment/div
           loss_segment.backward()
     
   Optimizer[i].step()
