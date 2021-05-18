@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from math import sqrt
 import torch.backends.cudnn as cudnn
-from configX import config as Config
+from config import config as Config
 import utils
 from tqdm import trange
 from torch.utils.data import DataLoader
@@ -317,7 +317,7 @@ def main(args):
 
 
   # trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.CrossEntropyLoss(), 'Segmentation':torch.nn.MSELoss()}
-  trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.BCEWithLogitsLoss(torch.ones([5], device=args.device)), 'Segmentation':torch.nn.MSELoss()}#add bias to BCEwithLOgits
+  trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.BCEWithLogitsLoss(torch.ones([6], device=args.device)), 'Segmentation':torch.nn.MSELoss()}#add bias to BCEwithLOgits
   # testCriteria = {'BG': torch.nn.L1Loss(), 'Classifier':torch.nn.CrossEntropyLoss(), 'Segmentation':torch.nn.MSELoss()}
   testCriteria = {'BG': torch.nn.L1Loss(), 'Classifier':torch.nn.BCEWithLogitsLoss(), 'Segmentation':torch.nn.MSELoss()}
 
@@ -419,7 +419,7 @@ def main(args):
       # import ipdb;ipdb.set_trace()
     
     trainRes = '\n\n {}:Train | accuracy -{} || {:.3f} |\tlossRGB-{:.3f} |\tloss_classif-{:.3f}  |\tloss_segment-{:.3f}'.format(epoch, train_accuracy*100, accuracy_score(y_true=train_classifRes[0], y_pred=train_classifRes[1]), train_loss['Decoder'], train_loss['Classifier'], train_loss['Segmentation'])
-    testRes = '{}:Test  | accuracy -{} || {:.3f} |\tlossRGB-{:.3f} |\tloss_classif-{:.3f}  |\tloss_segment-{:.3f}\n\n'.format(epoch, test_accuracy*100, accuracy_score(y_true=test_classifRes[0], y_pred=test_classifRes[1]),  train_loss['Decoder'], train_loss['Classifier'], train_loss['Segmentation'])
+    testRes = '{}:Test  | accuracy -{} || {:.3f} |\tlossRGB-{:.3f} |\tloss_classif-{:.3f}  |\tloss_segment-{:.3f}\n\n'.format(epoch, test_accuracy*100, accuracy_score(y_true=test_classifRes[0], y_pred=test_classifRes[1]),  test_loss['Decoder'], test_loss['Classifier'], test_loss['Segmentation'])
     
     print(trainRes,'\n',testRes)
     with open(args.logfile,'a') as f:

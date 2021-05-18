@@ -32,9 +32,9 @@ class config():
       test_set = dataset.celebA_Subset(celeba.test_images, test_transform)
 
     elif self.args.dataset == 'Simp':
-      folder = self.args.data_dir
-      imgs_dir = folder+'/img'
-      coco_instance = COCO(folder+'/instances.json')
+      folder = self.args.data_dir 
+      imgs_dir = '/groups/amahalanobis/MS-COCO/train2017'
+      coco_instance = COCO(folder+'/instanceSelectClassImage.json')
 
 
       size = (self.args.size,self.args.size)
@@ -43,7 +43,8 @@ class config():
       preprocess4D = transforms.Compose([ transforms.ToPILImage(), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.Resize((64,64)), transforms.ToTensor()])
       # dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocessOut,preprocessOut], size=size)
       
-      selected_Class = ['Homer','Marge','Maggie','Lisa','Bart']
+      selected_Class = ['person','truck','car','bus','train','motorcycle']
+      
       dataset = Simpload(COCOInstance = coco_instance, imgs_dir = imgs_dir, preProcess = [preprocessOut,preprocessOut,preprocess4D], size=size, selectedCat = selected_Class)
       val_percent = self.args.test_split
       n_val = int(len(dataset) * val_percent)

@@ -239,8 +239,8 @@ class Simpload(Dataset):
         imgDetail = self.coco_imgs[idx]
         img_path = self.imgs_dir + '/' + imgDetail['file_name']
 
-
-        imgPIL = Image.open(img_path.replace('\\','/'))
+        imgCV = cv2.imread(img_path.replace('\\','/'))
+        imgPIL = Image.fromarray(imgCV)
         imgPIL = imgPIL.resize(self.size[::-1])
         img = np.array(imgPIL)
 
@@ -333,6 +333,19 @@ if __name__ == '__main__':
     selected_Class = ['Homer','Marge','Maggie','Lisa','Bart']
     size = (256,256)
 
+    def collate_fn(batch):
+        k = ['class', 'inputImage', 'combinedMask', 'combinedRGB', 'classExtract', 'classExtract2d']
+        data = {}
+        for i in k:
+          if i not in data.keys():
+            if i != 'class':
+              data[i] = [item[i] for item in batch]
+            else:
+              data[i] = [item[i][1] for item in batch]
+            data[i] = torch.cat(data[i], dim = 0)
+        return (data)
+
+
 
     preprocess = transforms.Compose([ transforms.ToPILImage(), transforms.RandomVerticalFlip(0.3),transforms.RandomHorizontalFlip(0.3), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.ToTensor(),])
     preprocessOut = transforms.Compose([ transforms.ToPILImage(), transforms.ColorJitter(brightness=0.1, contrast=0.2, saturation=0, hue=0), transforms.ToTensor()])
@@ -347,38 +360,22 @@ if __name__ == '__main__':
     torch.manual_seed(0);
     train_set, test_set = random_split(dataset, [n_train, n_val])
 
+    # import ipdb;ipdb.set_trace()
+    train_loader = DataLoader(train_set, batch_size=16, shuffle=True, num_workers=8, pin_memory=True, collate_fn=collate_fn)
+    test_loader = DataLoader(test_set, batch_size=16, shuffle=True, num_workers=8, pin_memory=True, drop_last=True, collate_fn=collate_fn)
+
     for i in dataset: break 
     #     # if len(i['class'])>1:
     #         print(i['class'])
  
-    train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1)
-    for i in train_loader: break
+    for ix,i in enumerate(train_loader): 
+        print(ix)
+        if ix>100: break
     from torchvision.utils import save_image, make_grid
 
-    save_image(i['combinedRGB'][5][0], 'a.jpg')
-    save_image(i['classExtract2d'][5][0][4], 'a1.jpg')
 
     for k in ['combinedMask', 'inputImage', 'combinedRGB', 'classExtract2d', 'classExtract']:
         print(k,i[k].shape)
-
-
-
-    train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1) 
-
-
-    import matplotlib.pyplot as plt
-    show_img(torchvision.utils.make_grid(data.next()))
-
-
-
-    preprocess = transforms.Compose([ transforms.Resize(size) ])
-    cv2.imwrite('dtestMask.jpg', np.array(asd['combinedMask'])*255)
-    # cv2.imwrite('dtestRGB.jpg', np.array(asd['combinedRGB'])*255)
-    
-    # cv2.imwrite('dtest0_bw.jpg', np.array(asd['classExtract'][0])*255)
-    # cv2.imwrite('dtest1_bw.jpg', np.array(asd['classExtract'][1])*255)
-    # cv2.imwrite('dtest2_bw.jpg', np.array(asd['classExtract'][2])*255)
-    # cv2.imwrite('dtest2_rgb.jpg', np.array(asd['classExtract2d'][2])*255)
 
 
 
