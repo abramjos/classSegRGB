@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from math import sqrt
 import torch.backends.cudnn as cudnn
-from configX import config as Config
+from config import config as Config
 import utils
 from tqdm import trange
 from torch.utils.data import DataLoader
