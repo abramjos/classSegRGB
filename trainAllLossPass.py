@@ -317,7 +317,7 @@ def main(args):
 
 
   # trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.CrossEntropyLoss(), 'Segmentation':torch.nn.MSELoss()}
-  trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.BCEWithLogitsLoss(torch.ones([5], device=args.device)), 'Segmentation':torch.nn.MSELoss()}#add bias to BCEwithLOgits
+  trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.BCEWithLogitsLoss(torch.ones([6], device=args.device)), 'Segmentation':torch.nn.MSELoss()}#add bias to BCEwithLOgits
   # testCriteria = {'BG': torch.nn.L1Loss(), 'Classifier':torch.nn.CrossEntropyLoss(), 'Segmentation':torch.nn.MSELoss()}
   testCriteria = {'BG': torch.nn.L1Loss(), 'Classifier':torch.nn.BCEWithLogitsLoss(), 'Segmentation':torch.nn.MSELoss()}
 
