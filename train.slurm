@@ -33,7 +33,7 @@ source activate detectron
 echo
 echo " Started Training"
 echo "=================================================================================================="
-python -W ignore trainOneLossPass.py --data_dir /groups/amahalanobis/MS-COCO/train2017 --exp_dir ./OneLossBack/COCORGBAvgMaskXLossOne --logfile './Log/COCOOneLossBackRGBAvgMaskX.txt' --n_epochs 2000
+python -W ignore trainOneLossPass.py --data_dir /groups/amahalanobis/MS-COCO/annotations_trainval2017/annotations/ --exp_dir ./OneLossBack/COCORGBAvgMaskXLossOne --logfile './Log/COCOOneLossBackRGBAvgMaskX.txt' --n_epochs 2000
 echo "=================================================================================================="
 
 echo "Training Complete"
