@@ -114,7 +114,7 @@ class Simpload(Dataset):
 
         # logging.info('Creating dataset with {} examples with {} classes'.format(len(self.ids),len(classesT)))
     def __len__(self):
-        return int(self.mult*self.avgInst)
+        return int(self.mult*self.avgInst*5)
 
     @classmethod
     def preprocess(cls, pil_img, scale):

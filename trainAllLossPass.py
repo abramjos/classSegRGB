@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from torchvision.utils import save_image, make_grid
 from tensorboard_logger import configure, log_value
 
-from dataset import Simpload
+from datasetBalanced import Simpload
 from pycocotools.coco import COCO
 
 from torch.utils.data import DataLoader, random_split
