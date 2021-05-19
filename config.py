@@ -6,7 +6,7 @@ from classifierX import Classifier,Segment,celebA_Encoder,celebA_Decoder
 import torchvision
 import torchvision.transforms as transforms
 
-from dataset import Simpload
+from datasetBalanced import Simpload
 from pycocotools.coco import COCO
 from torch.utils.data import DataLoader, random_split
 from torchvision import transforms
