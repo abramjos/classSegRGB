@@ -374,102 +374,102 @@ if __name__ == '__main__':
 ##################DEEEEEEEEEBUGGGGGGGGGGGGGGGGGG
 
 
-    folder = './checkingOut'
-    os.makedirs(folder,exist_ok=True)
-    for ix,i in enumerate(train_set):
-        intx = 0#np.random.randint(len(i['class']))
-        imB = np.array(transforms.ToPILImage()(i['combinedRGB'][intx].squeeze()))
-        imI = np.array(transforms.ToPILImage()(i['inputImage'][intx].squeeze()))
-        imBW = np.array(transforms.ToPILImage()(i['combinedMask'][intx].squeeze()))
+    # folder = './checkingOut'
+    # os.makedirs(folder,exist_ok=True)
+    # for ix,i in enumerate(train_set):
+    #     intx = 0#np.random.randint(len(i['class']))
+    #     imB = np.array(transforms.ToPILImage()(i['combinedRGB'][intx].squeeze()))
+    #     imI = np.array(transforms.ToPILImage()(i['inputImage'][intx].squeeze()))
+    #     imBW = np.array(transforms.ToPILImage()(i['combinedMask'][intx].squeeze()))
         
-        cvImage = cv2.hconcat([imI,imB,np.stack([imBW,imBW,imBW],axis=2)])
+    #     cvImage = cv2.hconcat([imI,imB,np.stack([imBW,imBW,imBW],axis=2)])
 
-        cv2.imwrite(folder+'/%d-imB.jpg'%ix, cvImage)
-        if ix > 1000: break 
-
-
+    #     cv2.imwrite(folder+'/%d-imB.jpg'%ix, cvImage)
+    #     if ix > 1000: break 
 
 
-    for i in dataset: 
 
-    # for i in dataset: break 
-    #     # if len(i['class'])>1:
-    #         print(i['class'])
+
+    # for i in dataset: 
+
+    # # for i in dataset: break 
+    # #     # if len(i['class'])>1:
+    # #         print(i['class'])
  
-    train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1)
-    for i in train_loader: break
-    from torchvision.utils import save_image, make_grid
+    # train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1)
+    # for i in train_loader: break
+    # from torchvision.utils import save_image, make_grid
 
-    save_image(i['combinedRGB'][5][0], 'a.jpg')
-    save_image(i['classExtract2d'][5][0][4], 'a1.jpg')
+    # save_image(i['combinedRGB'][5][0], 'a.jpg')
+    # save_image(i['classExtract2d'][5][0][4], 'a1.jpg')
 
-    for k in ['combinedMask', 'inputImage', 'combinedRGB', 'classExtract2d', 'classExtract']:
-        print(k,i[k].shape)
-
-
+    # for k in ['combinedMask', 'inputImage', 'combinedRGB', 'classExtract2d', 'classExtract']:
+    #     print(k,i[k].shape)
 
 
+
+
+
+    # # def collate_fn(batch):
+    # #     k = ['class', 'inputImage', 'combinedMask', 'combinedRGB', 'classExtract', 'classExtract2d']
+    # #     data = {}
+
+    # #     for i in k:
+    # #       if i not in data.keys():
+    # #         if i != 'class':
+    # #           data[i] = [item[i] for item in batch]
+    # #         else:
+    # #           dataLabel = []
+
+    # #           for item in batch:
+    # #                 # import ipdb;ipdb.set_trace()
+    # #                 for a,x in zip(item['class'][0],item[1]):
+    # #                     dataLabel.append((a,x)) 
+    # #           data[i] = dataLabel
+    # #           # temp = [dataLabel.append(i) for i in item[i][0] for item in batch]
+    # #           # del temp
+    # #           # item[i][0],
+    # #           # data[i] = [(item[i][1],dl) for item,dl in zip(batch,dataLabel)]
+    # #         data[i] = torch.cat(data[i], dim = 0)
+    # #     return (data)
 
     # def collate_fn(batch):
     #     k = ['class', 'inputImage', 'combinedMask', 'combinedRGB', 'classExtract', 'classExtract2d']
     #     data = {}
-
     #     for i in k:
     #       if i not in data.keys():
     #         if i != 'class':
     #           data[i] = [item[i] for item in batch]
     #         else:
-    #           dataLabel = []
-
-    #           for item in batch:
-    #                 # import ipdb;ipdb.set_trace()
-    #                 for a,x in zip(item['class'][0],item[1]):
-    #                     dataLabel.append((a,x)) 
-    #           data[i] = dataLabel
-    #           # temp = [dataLabel.append(i) for i in item[i][0] for item in batch]
-    #           # del temp
-    #           # item[i][0],
-    #           # data[i] = [(item[i][1],dl) for item,dl in zip(batch,dataLabel)]
+    #           data[i] = [item[i][1] for item in batch]
     #         data[i] = torch.cat(data[i], dim = 0)
     #     return (data)
 
-    def collate_fn(batch):
-        k = ['class', 'inputImage', 'combinedMask', 'combinedRGB', 'classExtract', 'classExtract2d']
-        data = {}
-        for i in k:
-          if i not in data.keys():
-            if i != 'class':
-              data[i] = [item[i] for item in batch]
-            else:
-              data[i] = [item[i][1] for item in batch]
-            data[i] = torch.cat(data[i], dim = 0)
-        return (data)
+
+    # # import ipdb;ipdb.set_trace()
+    # train_loader = DataLoader(train_set, batch_size=8, shuffle=True, pin_memory=True, collate_fn=collate_fn)
+    # # train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1) 
+
+    # for ix,i in enumerate(train_loader):
+    #     print(i['combinedRGB'].shape)
+    #     if ix > 1000: break 
 
 
-    # import ipdb;ipdb.set_trace()
-    train_loader = DataLoader(train_set, batch_size=8, shuffle=True, pin_memory=True, collate_fn=collate_fn)
-    # train_loader = DataLoader(train_set, batch_size=8, shuffle=True, num_workers=1) 
+    #     import ipdb;ipdb.set_trace()
 
-    for ix,i in enumerate(train_loader):
-        print(i['combinedRGB'].shape)
-        if ix > 1000: break 
-
-
-        import ipdb;ipdb.set_trace()
-
-    import matplotlib.pyplot as plt
-    show_img(torchvision.utils.make_grid(data.next()))
+    # import matplotlib.pyplot as plt
+    # show_img(torchvision.utils.make_grid(data.next()))
 
 
 
-    preprocess = transforms.Compose([ transforms.Resize(size) ])
-    cv2.imwrite('dtestMask.jpg', np.array(asd['combinedMask'])*255)
-    # cv2.imwrite('dtestRGB.jpg', np.array(asd['combinedRGB'])*255)
+    # preprocess = transforms.Compose([ transforms.Resize(size) ])
+    # cv2.imwrite('dtestMask.jpg', np.array(asd['combinedMask'])*255)
+    # # cv2.imwrite('dtestRGB.jpg', np.array(asd['combinedRGB'])*255)
     
-    # cv2.imwrite('dtest0_bw.jpg', np.array(asd['classExtract'][0])*255)
-    # cv2.imwrite('dtest1_bw.jpg', np.array(asd['classExtract'][1])*255)
-    # cv2.imwrite('dtest2_bw.jpg', np.array(asd['classExtract'][2])*255)
-    # cv2.imwrite('dtest2_rgb.jpg', np.array(asd['classExtract2d'][2])*255)
+    # # cv2.imwrite('dtest0_bw.jpg', np.array(asd['classExtract'][0])*255)
+    # # cv2.imwrite('dtest1_bw.jpg', np.array(asd['classExtract'][1])*255)
+    # # cv2.imwrite('dtest2_bw.jpg', np.array(asd['classExtract'][2])*255)
+    # # cv2.imwrite('dtest2_rgb.jpg', np.array(asd['classExtract2d'][2])*255)
 
 
 
