@@ -5,14 +5,14 @@ import numpy as np
 import torch
 from math import sqrt
 import torch.backends.cudnn as cudnn
-from configX import config as Config
+from config import config as Config
 import utils
 from tqdm import trange
 from torch.utils.data import DataLoader
 from torchvision.utils import save_image, make_grid
 from tensorboard_logger import configure, log_value
 
-from dataset import Simpload
+from datasetBalanced import Simpload
 from pycocotools.coco import COCO
 
 from torch.utils.data import DataLoader, random_split
@@ -242,7 +242,7 @@ def main(args):
 
 
   # trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.CrossEntropyLoss(), 'Segmentation':torch.nn.MSELoss()}
-  trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.BCEWithLogitsLoss(torch.ones([5], device=args.device)), 'Segmentation':torch.nn.MSELoss()}#add bias to BCEwithLOgits
+  trainCriteria = {'BG': torch.nn.MSELoss(), 'Classifier':torch.nn.BCEWithLogitsLoss(torch.ones([6], device=args.device)), 'Segmentation':torch.nn.MSELoss()}#add bias to BCEwithLOgits
   # testCriteria = {'BG': torch.nn.L1Loss(), 'Classifier':torch.nn.CrossEntropyLoss(), 'Segmentation':torch.nn.MSELoss()}
   testCriteria = {'BG': torch.nn.L1Loss(), 'Classifier':torch.nn.BCEWithLogitsLoss(), 'Segmentation':torch.nn.MSELoss()}
 
