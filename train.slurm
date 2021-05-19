@@ -3,8 +3,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:1
-#SBATCH --output=slurm/OneLossBackAvgMask.txt
-#SBATCH --job-name=OneLossAvgMask
+#SBATCH --output=slurm/BOneLossBackAvgMask.txt
+#SBATCH --job-name=BOneLossAvgMask
 
 # Give this process 1 task (per GPU, but only one GPU), then assign eight 8per task
 # (so 8 cores overall).  Then enforce that slurm assigns only CPUs that are on the
@@ -33,7 +33,7 @@ source activate detectron
 echo
 echo " Started Training"
 echo "=================================================================================================="
-python -W ignore trainOneLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/RGBAvgMaskXLossOne --logfile './Log/OneLossBackRGBAvgMaskX.txt' --n_epochs 2000
+python -W ignore trainOneLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/BalRGBAvgMaskXLossOne --logfile './Log/BalOneLossBackRGBAvgMaskX.txt' --n_epochs 2000
 echo "=================================================================================================="
 
 echo "Training Complete"
