@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --time=24:00:00
-#SBATCH --cpus-per-task=8
-#SBATCH --ntasks=1
-#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=16
+#SBATCH --ntasks=2
+#SBATCH --gres=gpu:2
 #SBATCH --output=slurm/BOneLossBackAvgMask.txt
 #SBATCH --job-name=BOneLossAvgMask
 
@@ -33,7 +33,7 @@ source activate detectron
 echo
 echo " Started Training"
 echo "=================================================================================================="
-python -W ignore trainOneLossPass.py --data_dir ../../SimpsonsInstanceSegmentation-coco/ --exp_dir ./OneLossBack/BalRGBAvgMaskXLossOne --logfile './Log/BalOneLossBackRGBAvgMaskX.txt' --n_epochs 2000
+python -W ignore trainOneLossPass.py --data_dir '/groups/amahalanobis/MS-COCO/annotations_trainval2017/annotations/' --exp_dir ./OneLossBack/BalRGBAvgMaskXLossOne --logfile './Log/BalOneLossBackRGBAvgMaskX.txt' --n_epochs 5000
 echo "=================================================================================================="
 
 echo "Training Complete"
