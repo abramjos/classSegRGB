@@ -1,5 +1,4 @@
 import torch
-import dataset
 # from encoderX import celebA_Encoder
 # from decoderX import celebA_Decoder
 from classifierX import Classifier,Segment,celebA_Encoder,celebA_Decoder
